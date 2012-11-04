@@ -1,4 +1,8 @@
 Revision history for Perl extension Module::Build::Pluggable::ReadmeMarkdownFromPod
 
+0.02
+
+    - split package from M::B::P core.
+
 0.01    Sun Nov  4 17:02:10 2012
     - original version
