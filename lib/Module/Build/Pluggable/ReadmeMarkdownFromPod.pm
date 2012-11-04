@@ -2,14 +2,12 @@ package Module::Build::Pluggable::ReadmeMarkdownFromPod;
 use strict;
 use warnings;
 use 5.010001;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use parent qw/Module::Build::Pluggable::Base/;
 use Class::Accessor::Lite (
     ro => [qw/filename clean/],
 );
-
-our $VERSION = '0.01';
 
 sub HOOK_configure {
     my ($self) = @_;
