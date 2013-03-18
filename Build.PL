@@ -14,7 +14,7 @@ my $build = Module::Build->new(
     requires             => {
         perl => '5.010001',
         'parent'                        => '0',
-        'Module::Build::Pluggable' => '0.03',
+        'Module::Build::Pluggable' => '0.09',
         'Pod::Markdown' => 0,
         'Class::Accessor::Lite' => 0,
     },
