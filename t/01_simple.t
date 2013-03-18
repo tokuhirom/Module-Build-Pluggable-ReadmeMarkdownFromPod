@@ -2,11 +2,11 @@ use strict;
 use warnings;
 use utf8;
 use Test::More;
-use Test::Requires 'File::Temp';
 use Test::Module::Build::Pluggable;
 
 use File::Spec;
 use lib File::Spec->rel2abs('lib');
+
 my $test = Test::Module::Build::Pluggable->new();
 $test->write_file('lib/Eg.pm', <<'...');
 package Eg;
@@ -35,9 +35,13 @@ my $builder = Module::Build::Pluggable->new(
 );
 $builder->create_build_script();
 ...
+$test->write_manifest();
 
+note "** run_build_pl\n";
 $test->run_build_pl();
 $test->run_build_script();
+note "** run_build_script disttest\n";
+$test->run_build_script('disttest');
 
 ok(-f 'README.mkdn');
 like($test->read_file('README.mkdn'), qr/This is a document/);

@@ -2,7 +2,7 @@ package Module::Build::Pluggable::ReadmeMarkdownFromPod;
 use strict;
 use warnings;
 use 5.010001;
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use parent qw/Module::Build::Pluggable::Base/;
 use Class::Accessor::Lite (
@@ -25,15 +25,27 @@ sub HOOK_build {
 
     $self->log_info("Writing README.mkdn\n");
 
+    if (-f 'README.mkdn') {
+        my $perm = (stat 'README.mkdn')[2] & oct('7777');
+        chmod($perm | oct('600'), 'README.mkdn');
+        _write_file($src);
+        chmod($perm, 'README.mkdn'); # restore permission
+    } else {
+        _write_file($src);
+    }
+
+    if ($self->clean) {
+        $self->add_to_cleanup('README.mkdn');
+    }
+}
+
+sub _write_file {
+    my ($src) = @_;
     my $parser = Pod::Markdown->new();
     $parser->parse_from_file($src);
     open my $fh, '>', 'README.mkdn' or die "Cannot open README.mkdn: $!\n";
     print {$fh} $parser->as_markdown;
     close $fh;
-
-    if ($self->clean) {
-        $self->add_to_cleanup('README.mkdn');
-    }
 }
 
 1;
